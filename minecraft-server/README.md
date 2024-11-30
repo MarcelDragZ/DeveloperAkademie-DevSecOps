@@ -11,7 +11,9 @@
 1. [Description](#description)
 2. [Prerequisites](#prerequisites)
 3. [Quickstart Guide](#quickstart-guide)
-4. [Useful Links](#useful-links)
+4. [Extending the Installation](#extending-the-installation)
+5. [Troubleshooting](#troubleshooting)
+6. [Useful Links](#useful-links)
 
 ## Description
 
@@ -60,13 +62,71 @@ Follow these steps to quickly get your Minecraft server up and running:
 
   Make sure your firewall settings allow connections on this port.
 
-6. **Troubleshooting**:
+## Extending the Installation
 
-   If you encounter any issues, check the Docker logs for details:
+### Adding Mods or Plugins
 
-```bash
-docker-compose logs
-```
+1. **Locate the Mods Folder**:
+
+   - Navigate to the `mods` or `plugins` directory inside your server's volume.
+   - Example: `/path/to/your/server/mods`
+
+2. **Download Mods/Plugins**:
+
+   - Ensure that the mods or plugins are compatible with your Minecraft version.
+
+3. **Place the Files**:
+
+   - Copy the downloaded files into the appropriate folder.
+
+4. **Restart the Server**:
+   - Restart the Docker container to apply the changes:
+     ```bash
+     docker-compose restart
+     ```
+
+### Adjusting Multiplayer Settings
+
+1. **Edit `server.properties`**:
+
+   - Modify the settings directly in the `server.properties` file.
+
+2. **Common Settings**:
+
+   - `max-players`: Adjust the maximum number of players.
+   - `motd`: Customize the server's Message of the Day.
+   - `difficulty`: Change the game difficulty (`easy`, `normal`, `hard`).
+
+3. **Apply Changes**:
+   - Save the file and restart the server using:
+     ```bash
+     docker-compose restart
+     ```
+
+## Troubleshooting
+
+1. **Connection Issues**:
+
+   - Verify that the server is running and the correct ports are open.
+   - Use `docker-compose logs` to diagnose potential errors.
+
+2. **Mod/Plugin Compatibility**:
+
+   - Check if the mods or plugins match the server's Minecraft version.
+
+3. **Performance Problems**:
+
+   - Increase allocated memory in your `docker-compose.yml` or adjust server settings.
+
+4. **Other Logs**:
+   - Inspect additional logs for detailed error messages using:
+     ```bash
+     docker logs <container_name>
+     ```
+   - For more comprehensive logs, you can use:
+     ```bash
+     docker-compose logs
+     ```
 
 ## Useful Links
 
