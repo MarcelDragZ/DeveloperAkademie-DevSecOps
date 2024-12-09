@@ -64,28 +64,26 @@ Follow these steps to quickly get your Minecraft server up and running:
 
 ## Extending the Installation
 
-### Adding Mods or Plugins
+Adding Mods or Plugins
 
 1. **Locate the Mods Folder**:
 
    - Navigate to the `mods` or `plugins` directory inside your server's volume.
    - Example: `/path/to/your/server/mods`
 
-2. **Download Mods/Plugins**:
+2. **Install Mods/Plugins**:
 
    - Ensure that the mods or plugins are compatible with your Minecraft version.
-
-3. **Place the Files**:
-
+   - Download Mods/Plugins
    - Copy the downloaded files into the appropriate folder.
 
-4. **Restart the Server**:
+3. **Restart the Server**:
    - Restart the Docker container to apply the changes:
      ```bash
      docker-compose restart
      ```
 
-### Adjusting Multiplayer Settings
+Adjusting Multiplayer Settings
 
 1. **Edit `server.properties`**:
 
@@ -132,4 +130,4 @@ Follow these steps to quickly get your Minecraft server up and running:
 
 - [Minecraft Server Download](https://www.minecraft.net/de-de/download)
 - [Docker Documentation](https://docs.docker.com/)
-- [How to Run Minecraft Server in Docker](https://www.howtogeek.com/devops/how-to-run-a-minecraft-server-in-docker/)
+- [How to Run Minecraft Server in Docker](https://www.docker.com/blog/minecraft-server-docker-1/)
