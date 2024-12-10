@@ -1,0 +1,16 @@
+FROM openjdk:21-jdk-slim
+
+WORKDIR /app
+
+ARG EULA=true
+ARG MEMORY=2G
+
+COPY . $WORKDIR
+
+RUN echo "eula=${EULA}" > eula.txt
+
+EXPOSE 25565
+
+ENV MEMORY=${MEMORY}
+
+ENTRYPOINT ["java", "-Xmx1024M", "-Xms1024M", "-jar", "server.1.21.1.jar", "nogui"]

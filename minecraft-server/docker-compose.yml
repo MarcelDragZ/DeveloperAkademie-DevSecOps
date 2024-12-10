@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  mc-server:
+    build:
+      context: .
+      args:
+        EULA: "true"
+        MEMORY: "2G"
+    container_name: minecraft_server
+    ports:
+      - "8888:25565"
+    volumes:
+      - ./server.properties:/app/server.properties
+      - mc-server-volume:/app
+      - mc_data:/app/world
+    restart: unless-stopped
+
+volumes:
+  mc-server-volume:
+    driver: local
+  mc_data:
+    driver: local
