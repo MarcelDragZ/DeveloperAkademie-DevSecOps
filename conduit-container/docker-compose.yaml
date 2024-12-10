@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  frontend:
+    env_file: ".env"
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: conduit-frontend
+    ports:
+      - "8282:80"
+
+  backend:
+    env_file: ".env"
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: conduit-backend
+    volumes:
+      - conduit-db:/app/db_data
+    ports:
+      - "8000:8000"
+    restart: on-failure
+
+volumes:
+  conduit-db:
