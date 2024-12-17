@@ -1,0 +1,50 @@
+name: Deployment to Server
+
+on:
+  push:
+    branches:
+      - conduit-deployment
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: SSH into Server and Deploy
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            echo "🔧 Starte Deployment..."
+
+            PROJECT_DIR="${{ secrets.PROJECT_PATH }}"
+            BRANCH_NAME="conduit-deployment"
+
+            echo "Bereinige Zielverzeichnis..."
+            mkdir -p $PROJECT_DIR
+            cd $PROJECT_DIR
+            if [ -d "conduit-deployment/.git" ]; then
+              echo "Pulling changes..."
+              cd conduit-deployment
+              git pull origin $BRANCH_NAME
+            else
+              echo "Cloning repository..."
+              rm -rf conduit-deployment
+              git clone --branch $BRANCH_NAME ${{ secrets.REPO_URL }} conduit-deployment
+              cd conduit-deployment
+            fi
+
+            mv sample.env .env
+
+            echo "Starte Docker Compose..."
+            docker-compose down || true
+            docker system prune -a -f
+            docker-compose up -d
+
+            echo "Deployment abgeschlossen!"
