@@ -1,4 +1,4 @@
-name: Deployment to Server
+name: Conduit Deployment
 
 on:
   push:
@@ -32,6 +32,8 @@ jobs:
             if [ -d "conduit-deployment/.git" ]; then
               echo "Pulling changes..."
               cd conduit-deployment
+              git reset --hard
+              git clean -fd
               git pull origin $BRANCH_NAME
             else
               echo "Cloning repository..."
@@ -40,11 +42,23 @@ jobs:
               cd conduit-deployment
             fi
 
+            if [ ! -f sample.env ]; then
+              echo "Die Datei sample.env wurde nicht gefunden!"
+              exit 1
+            fi
             mv sample.env .env
 
-            echo "Starte Docker Compose..."
+            echo "Stoppe und entferne alte Container..."
             docker-compose down || true
             docker system prune -a -f
+
+            echo "Starte Docker Compose..."
             docker-compose up -d
+
+            echo "Prüfe, ob die Container erfolgreich gestartet wurden..."
+            if ! docker-compose ps | grep "Up"; then
+              echo "Container konnten nicht gestartet werden!"
+              exit 1
+            fi
 
             echo "Deployment abgeschlossen!"

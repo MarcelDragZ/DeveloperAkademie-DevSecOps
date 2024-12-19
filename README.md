@@ -8,12 +8,17 @@
 
 ## Table of Contents
 
-1. [Environment Setup](#environment-setup)
-2. [Description](#description)
-3. [Quickstart Guide](#quickstart-guide)
-4. [Usage](#usage)
-5. [Useful Links](#useful-links)
-6. [Troubleshooting](#troubleshooting)
+- [Project: Conduit Application Setup with Docker](#project-conduit-application-setup-with-docker)
+  - [Table of Contents](#table-of-contents)
+  - [Environment Setup](#environment-setup)
+  - [Description](#description)
+  - [Quickstart Guide](#quickstart-guide)
+  - [Deployment Details](#deployment-details)
+  - [Usage](#usage)
+  - [Useful Links](#useful-links)
+  - [Troubleshooting](#troubleshooting)
+    - [Bash Script Line Ending Issue](#bash-script-line-ending-issue)
+      - [Convert Line Endings:](#convert-line-endings)
 
 ## Environment Setup
 
@@ -77,6 +82,42 @@ Follow these steps to quickly get your Conduit application up and running:
    ```bash
    docker-compose logs
    ```
+
+## Deployment Details
+
+To deploy the Conduit application to a Cloud-VM instance via GitHub Actions, ensure the following steps are completed:
+
+1. **GitHub Secrets**:
+   Configure the following secrets in your GitHub repository:
+
+   - `SERVER_IP`: The IP address of your server.
+   - `USER`: The username for SSH access.
+   - `SSH_PRIVATE_KEY`: The private key for SSH authentication.
+   - `REPO_URL`: The URL of your Git repository.
+   - `PROJECT_PATH`: The path on the server where the project will be deployed.
+
+2. **Environment File**:
+
+   - Customize the `sample.env` file with the correct server configuration and copy it as `.env`:
+     ```sh
+     cp sample.env .env
+     ```
+
+3. **SSH Key Pair**:
+
+   - Ensure your SSH key pair is correctly set up and that the public key is added to your server's authorized keys.
+
+4. **Workflow**:
+
+   - The GitHub Actions workflow file `deployment.yaml` in `.github/workflows` handles the following:
+     - Establishes an SSH connection to the server.
+     - Clones or updates the repository on the server.
+     - Starts the containerized application using `docker-compose` in detached mode.
+     - Stops and cleans up any existing containers before starting new ones.
+
+5. **Validation**:
+   - Verify that the application is running by accessing the designated URL.
+   - Use `docker-compose ps` to ensure containers are up and running.
 
 ## Usage
 
