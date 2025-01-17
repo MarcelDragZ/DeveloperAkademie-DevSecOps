@@ -3,14 +3,14 @@ version: "3.8"
 services:
   frontend:
     env_file: ".env"
-    image: marceldragz/conduit-frontend:v1.0
+    image: ghcr.io/marceldragz/conduit-frontend:v1.0
     container_name: conduit-frontend
     ports:
       - "8282:80"
 
   backend:
     env_file: ".env"
-    image: marceldragz/conduit-backend:v1.0
+    image: ghcr.io/marceldragz/conduit-backend:v1.0
     container_name: conduit-backend
     volumes:
       - ./conduit-db:/app/db_data
